@@ -58,15 +58,23 @@ function fa_youtube_playlist(){
     //do something here.
     try{
         $results = json_decode(get_youtube_playlist());
+
+            $nextPage = $results['nextPageToken'];
+            $items = $results['items'];
+            if(is_array($items)): ?>
+            <div class="row">
+                <?php foreach($items as $i => $value):  ?>
+                    <div class="col-xs-4"><a href="#<?php echo $value['snippet']['resourceId']['videoId']; ?>"></a></div>
+                <?php endforeach; ?>
+            </div>
+
+            <?php endif;
+
+
     } catch(Exception $e) {
-        
+        echo '<p>Oops! Something went wrong! - error message:'.$e.'</p>';
     }
 
-
-    $results = json_decode($results);
-
-    $nextPage = $results['nextPageToken'];
-    $items = $results
 }
 
 
