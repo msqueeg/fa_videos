@@ -37,8 +37,36 @@ function fa_videos_load(){
 
 fa_videos_load();
 
+function get_youtube_playlist($play_list_id) {
+
+    $auth_key = '';
+    $play_list_id = 'PLgKXmNKiHvpWsB3Hjch2yBsN4WLQuw-S9';
+    $max_results = '3'; //integer between 0 and 50
+
+    $ch = cur_init('https://www.google.com/youtube/v3/playlistItems?part=snippet&maxResults='.$maxResults.'&playlistId='.$play_list_id.'fields=items%2CnextPageToken%2CprevPageToken&key='.$auth_key);
+
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    $results = curl_exec($ch);
+    if(curl_errno($ch)) {
+        throw new Exception(curl_error($ch));
+    }
+    return $result;
+}
+
 function fa_youtube_playlist(){
     //do something here.
+    try{
+        $results = json_decode(get_youtube_playlist());
+    } catch(Exception $e) {
+        
+    }
+
+
+    $results = json_decode($results);
+
+    $nextPage = $results['nextPageToken'];
+    $items = $results
 }
 
 
